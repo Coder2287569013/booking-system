@@ -25,7 +25,7 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user}'s Booking"
+        return f"{self.user.username}'s Booking, {self.room}"
 
 
     class Meta:
