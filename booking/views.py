@@ -33,4 +33,13 @@ def book_room(request):
         return redirect("booking-detail", pk=booking.id)
     else:
         return render(request, template_name="booking/booking_form.html")
-    
+
+
+def booking_detail(request, pk):
+    booking = Booking.objects.get(id=pk)
+
+    context = {
+        "booking": booking
+    }
+
+    return render(request, "booking/booking_detail.html", context)
