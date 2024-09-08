@@ -33,3 +33,4 @@ def book_room(request):
         return redirect("booking-detail", pk=booking.id)
     else:
         return render(request, template_name="booking/booking_form.html")
+    
