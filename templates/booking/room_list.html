@@ -1,10 +1,23 @@
-<h1>List of Rooms:</h1>
-<ul>
-    {% for room in rooms %}
-    <li>
-        <h2>Room #{{ room.number }}</h2>
-        <h3>Capacity: {{room.capacity}}</h3>
-        <p>Location: {{room.location}}</p>
-    </li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>List of Rooms:</h1>
+    <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Location</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for room in rooms %}
+            <tr>
+                <th scope="row">{{ room.number }}</th>
+                <td>{{room.capacity}}</td>
+                <td>{{room.location}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
