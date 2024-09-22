@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Room, Booking
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def room_list(request):
@@ -12,6 +13,7 @@ def room_list(request):
 
     return render(request, "booking/room_list.html", context)
 
+@login_required
 def book_room(request):
     if request.method == "POST":
         room_number = request.POST.get("room-number")

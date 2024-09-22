@@ -18,6 +18,18 @@
                 <li class="nav-item">
                   <a class="text-light nav-link" href="{% url 'book-room' %}">Book a room</a>
                 </li>
+                {% if request.user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="text-light nav-link" href="{% url 'logout' %}">Logout</a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                    <a class="text-light nav-link" href="{% url 'register' %}">Register</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="text-light nav-link" href="{% url 'login' %}">Login</a>
+                  </li>
+                {% endif %}
               </ul>
             </div>
           </div>
