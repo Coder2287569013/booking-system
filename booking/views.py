@@ -45,3 +45,13 @@ def booking_detail(request, pk):
     }
 
     return render(request, "booking/booking_detail.html", context)
+
+def user_booking_list(request):
+    bookings = Booking.objects.filter(user=request.user)
+    print(bookings)
+
+    context = {
+        "bookings": bookings
+    }
+
+    return render(request, "booking/user_bookings.html", context)

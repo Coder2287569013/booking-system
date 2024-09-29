@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>Your Bookings</h1>
+    {% for booking in bookings %}
+        <a href="{% url 'booking-detail' booking.id %}">Booking #{{ booking.id }}</a>
+        <br>
+    {% endfor %}
+{% endblock %}
