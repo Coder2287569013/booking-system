@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Room, Booking
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 def room_list(request):
@@ -12,6 +13,16 @@ def room_list(request):
     }
 
     return render(request, "booking/room_list.html", context)
+
+class RoomListView(ListView):
+    model = Room
+    context_object_name = 'rooms'
+    template_name = 'booking/room_list.html'
+
+class RoomDetailsView(DetailView):
+    model = Room
+    context_object_name = 'room'
+    template_name = 'booking/room_detail.html'
 
 @login_required
 def book_room(request):
