@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>Booking #{{ booking.id }}</h1>
-<p>User: {{ booking.user.username }}</p>
-<p>Room: {{ booking.room }}</p>
-<p>Time range: {{ booking.start_time }} - {{ booking.end_time }}</p>
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <h1>Booking #{{ booking.id }}</h1>
+    <div class="info">
+        <p>User: {{ booking.user.username }}</p>
+        <p>Room: {{ booking.room }}</p>
+        <p>Time range: {{ booking.start_time }} - {{ booking.end_time }}</p>
+        <a class="change-link" href="{% url 'update-book' booking.id %}">Change booking</a>
+        <a class="delete-link" href="{% url 'booking-delete' booking.id %}">Delete booking</a>
+    </div>
 {% endblock %}

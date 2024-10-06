@@ -5,14 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
-def room_list(request):
-    rooms = Room.objects.all()
-
-    context = {
-        "rooms": rooms
-    }
-
-    return render(request, "booking/room_list.html", context)
 
 class RoomListView(ListView):
     model = Room
@@ -25,7 +17,7 @@ class RoomDetailsView(DetailView):
     template_name = 'booking/room_detail.html'
 
 @login_required
-def book_room(request):
+def book_room(request, pk=None):
     if request.method == "POST":
         room_number = request.POST.get("room-number")
         start_time = request.POST.get("start-time")
@@ -33,19 +25,42 @@ def book_room(request):
 
         try:
             room = Room.objects.get(number=room_number)
-        except ValueError:
-            return HttpResponse("Wrong room number!", status_code=400)
-        
-        booking = Booking.objects.create(
-            user=request.user,
-            room=room,
-            start_time=start_time,
-            end_time=end_time
-        )
+        except Room.DoesNotExist:
+            return HttpResponse("Room not found!", status=400)
+
+        if pk:  
+            try:
+                booking = Booking.objects.get(id=pk, user=request.user)  
+                booking.room = room
+                booking.start_time = start_time
+                booking.end_time = end_time
+                booking.save()
+            except Booking.DoesNotExist:
+                return HttpResponse("Booking not found!", status=404)
+        else: 
+            booking = Booking.objects.create(
+                user=request.user,
+                room=room,
+                start_time=start_time,
+                end_time=end_time
+            )
 
         return redirect("booking-detail", pk=booking.id)
     else:
-        return render(request, template_name="booking/booking_form.html")
+        if pk:
+            try:
+                booking = Booking.objects.get(id=pk, user=request.user)
+            except Booking.DoesNotExist:
+                return HttpResponse("Booking not found!", status=404)
+        else:
+            booking = None
+
+        return render(request, "booking/booking_form.html", {"booking": booking})
+
+def delete_booking(request, pk):
+    booking = Booking.objects.filter(id=pk).delete()
+    return redirect("user-bookings")
+
 
 
 def booking_detail(request, pk):
