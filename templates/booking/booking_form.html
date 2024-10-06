@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/style2.css' %}">
-    <form method="POST" action="{% url 'book-room' %}">
+    <form method="POST" action="{% if booking %}{% url 'update-book' booking.id %}{% else %}{% url 'book-room' %}{% endif %}">
         {% csrf_token %}
         <label for="room-number">Room number:</label>
         <input type="number" id="room-number" name="room-number">
